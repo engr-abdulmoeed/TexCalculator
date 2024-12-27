@@ -34,6 +34,9 @@ def get_salary() -> tuple[int, str]:
     except ValueError:
         raise ValueError('Invalid input. Enter an integer value for salary.')
 
+    if salary <= 0:
+        raise ValueError('Salary must be a positive integer.')
+
     return salary, category
 
 
