@@ -24,20 +24,23 @@ def get_salary() -> tuple[int, str]:
         ValueError: If the input category is not 'M' or 'Y'.
         ValueError: If the salary input is not an integer.
     """
-    category = input('Enter "M" for Monthly salary and "Y" for Yearly salary: ').upper()
+    while True:
+        category = input('Enter "M" for Monthly salary and "Y" for Yearly salary: ').upper()
 
-    if category not in category_dict:
-        raise ValueError('Invalid input. Enter "M" or "Y".')
+        if category in category_dict:
+            break
 
-    try:
-        salary = int(input(f'Enter your {category_dict[category]} salary: '))
-    except ValueError:
-        raise ValueError('Invalid input. Enter an integer value for salary.')
+        print('Invalid input. Enter "M" or "Y".')
 
-    if salary <= 0:
-        raise ValueError('Salary must be a positive integer.')
+    while True:
+        salary = input(f'Enter your {category_dict[category]} salary: ')
 
-    return salary, category
+        if salary.isdigit() and int(salary) > 0:
+            break
+
+        print('Invalid input. Enter an integer value for salary.')
+
+    return int(salary), category
 
 
 def convert_amount(amount: int, to_yearly: bool) -> int:
@@ -70,13 +73,14 @@ def calculate_yearly_income_tax(yearly_salary: int) -> int:
         if yearly_salary <= bracket_limit:
             yearly_income_tax = yearly_income_tax + (yearly_salary - previous_bracket_limit) * tax_rate
             break
+
         yearly_income_tax = yearly_income_tax + (bracket_limit - previous_bracket_limit) * tax_rate
         previous_bracket_limit = bracket_limit
 
     return round(yearly_income_tax)
 
 
-def main():
+def main() -> None:
     salary, category = get_salary()
 
     yearly_salary = convert_amount(salary, to_yearly=(category == 'M'))
@@ -85,13 +89,11 @@ def main():
     yearly_income_tax = calculate_yearly_income_tax(yearly_salary)
     monthly_income_tax = convert_amount(yearly_income_tax, to_yearly=False)
 
-    print(f'{category_dict.get("M")} salary {monthly_salary} PKR')
+    print(f'\n{category_dict.get("M")} salary {monthly_salary} PKR')
     print(f'Monthly income tax {monthly_income_tax} PKR')
     print(f"Your monthly salary after tax {monthly_salary - monthly_income_tax} PKR")
 
-    print()
-
-    print(f'{category_dict.get("Y")} salary {yearly_salary} PKR')
+    print(f'\n{category_dict.get("Y")} salary {yearly_salary} PKR')
     print(f'Yearly income tax {yearly_income_tax} PKR')
     print(f"Yearly salary after tax {yearly_salary - yearly_income_tax} PKR")
 
