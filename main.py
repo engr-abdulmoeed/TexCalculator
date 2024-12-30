@@ -81,6 +81,18 @@ def calculate_yearly_income_tax(yearly_salary: int) -> int:
 
 
 def main() -> None:
+    """
+    Main function to calculate and display monthly and yearly salaries
+    along with income tax deductions.
+
+    - Accepts salary and category (Monthly 'M' or Yearly 'Y') from the user.
+    - Converts salary between monthly and yearly based on the category.
+    - Calculates and displays income tax for both monthly and yearly salaries.
+    - Prints salary details before and after tax.
+
+    Returns:
+        None
+    """
     salary, category = get_salary()
 
     yearly_salary = convert_amount(salary, to_yearly=(category == 'M'))
